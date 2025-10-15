@@ -10,7 +10,7 @@ declare global {
 type Payload = {
   sum: string;
   period: number;
-  avto: number | 'none';
+  avto: string | 'none';
   var4: string | 'none';
 };
 

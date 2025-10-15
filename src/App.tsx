@@ -5,6 +5,7 @@ import { Gap } from '@alfalab/core-components/gap';
 import { Grid } from '@alfalab/core-components/grid';
 import { PureCell } from '@alfalab/core-components/pure-cell';
 import { Steps } from '@alfalab/core-components/steps';
+import { Switch } from '@alfalab/core-components/switch';
 import { Tag } from '@alfalab/core-components/tag';
 import { Typography } from '@alfalab/core-components/typography';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
@@ -17,6 +18,7 @@ import fileImg from './assets/file.png';
 import hbImg from './assets/hb.png';
 import houseImg from './assets/house.png';
 import percentImg from './assets/percent.png';
+import rubIcon from './assets/rub.svg';
 import { LS, LSKeys } from './ls';
 import { appSt } from './style.css';
 import { ThxLayout } from './thx/ThxLayout';
@@ -57,9 +59,12 @@ export const App = () => {
   const [thxShow, setThx] = useState(LS.getItem(LSKeys.ShowThx, false));
   const [collapsedItems, setCollapsedItem] = useState<string[]>([]);
   const [sum, setSum] = useState(2000);
+  const [sum2, setSum2] = useState(2000);
   const [period, setPeriod] = useState(12);
   const [error, setError] = useState<string | null>(null);
-  const [step, setStep] = useState<'step1' | 'step2'>('step2');
+  const [step, setStep] = useState<'step1' | 'step2'>('step1');
+  const [checked, setChecked] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   useEffect(() => {
     if (!LS.getItem(LSKeys.UserId, null)) {
@@ -73,7 +78,7 @@ export const App = () => {
     sendDataToGA({
       sum: sum.toString(),
       period,
-      avto: 'none',
+      avto: selected ? (checked ? 'all' : sum2.toString()) : 'none',
       var4: 'none',
     }).then(() => {
       LS.setItem(LSKeys.ShowThx, true);
@@ -88,6 +93,9 @@ export const App = () => {
     }
 
     setSum(value ?? 0);
+  };
+  const handleChangeInput2 = (_: React.ChangeEvent<HTMLInputElement>, { value }: { value: number | null }) => {
+    setSum2(value ?? 0);
   };
 
   if (thxShow) {
@@ -167,6 +175,65 @@ export const App = () => {
               {(chipsPercentByPeriod[period] * 100).toLocaleString('ru')}%
             </Typography.TitleResponsive>
           </div>
+
+          <div>
+            <Switch
+              block={true}
+              reversed={true}
+              checked={selected}
+              label="Перевести со вклада"
+              hint="Деньги зачислятся, когда вклад закроется"
+              onChange={() => setSelected(!selected)}
+            />
+          </div>
+          <Collapse expanded={selected}>
+            <div>
+              <Typography.Text view="primary-small" color="secondary" tag="p" defaultMargins={false}>
+                Счёт вклада
+              </Typography.Text>
+
+              <div className={appSt.bannerAccount}>
+                <img src={rubIcon} width={76} height={48} alt="rubIcon" />
+
+                <Typography.Text view="primary-small">Альфа-Вклад</Typography.Text>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '12px' }}>
+              <AmountInput
+                label="Сколько"
+                labelView="outer"
+                value={sum2}
+                error={error}
+                onChange={handleChangeInput2}
+                block
+                minority={1}
+                bold={false}
+                min={1000}
+                max={1_000_000}
+                positiveOnly
+                integersOnly
+                disabled={checked}
+                onBlur={() => {
+                  if (sum2 < 1000) {
+                    setSum2(1000);
+                  } else if (sum2 > 1_000_000) {
+                    setSum2(1_000_000);
+                  }
+                }}
+              />
+            </div>
+
+            <div style={{ marginTop: '12px' }}>
+              <Swiper style={{ marginLeft: '0' }} spaceBetween={8} slidesPerView="auto">
+                <SwiperSlide style={{ maxWidth: 'min-content' }}>
+                  <Tag size={32} view="filled" shape="rectangular" checked={checked} onClick={() => setChecked(!checked)}>
+                    <Typography.Text view="primary-small">Перевести всё</Typography.Text>
+                  </Tag>
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </Collapse>
         </div>
         <Gap size={96} />
 

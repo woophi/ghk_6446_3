@@ -74,6 +74,16 @@ const percentBox = recipe({
   },
 });
 
+const bannerAccount = style({
+  padding: '16px',
+  backgroundColor: '#F5F5F8',
+  borderRadius: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+  marginTop: '6px',
+});
+
 export const appSt = {
   bottomBtn,
   container,
@@ -82,4 +92,5 @@ export const appSt = {
   boxB,
   row,
   percentBox,
+  bannerAccount,
 };
