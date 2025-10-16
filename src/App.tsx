@@ -49,9 +49,9 @@ const chipsData = [10000, 36000, 50000, 72000];
 const chipsPeriod = [6, 12, 24];
 
 const chipsPercentByPeriod: Record<number, number> = {
-  6: 0.16,
-  12: 0.175,
-  24: 0.19,
+  6: 0.1801,
+  12: 0.165,
+  24: 0.136,
 };
 
 export const App = () => {
@@ -59,7 +59,7 @@ export const App = () => {
   const [thxShow, setThx] = useState(LS.getItem(LSKeys.ShowThx, false));
   const [collapsedItems, setCollapsedItem] = useState<string[]>([]);
   const [sum, setSum] = useState(2000);
-  const [sum2, setSum2] = useState(2000);
+  const [sum2, setSum2] = useState(100_000);
   const [period, setPeriod] = useState(12);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<'step1' | 'step2'>('step1');
@@ -215,10 +215,10 @@ export const App = () => {
                 integersOnly
                 disabled={checked}
                 onBlur={() => {
-                  if (sum2 < 1000) {
-                    setSum2(1000);
-                  } else if (sum2 > 1_000_000) {
-                    setSum2(1_000_000);
+                  if (sum2 < 1_000) {
+                    setSum2(1_000);
+                  } else if (sum2 > 100_000_000) {
+                    setSum2(100_000_000);
                   }
                 }}
               />
