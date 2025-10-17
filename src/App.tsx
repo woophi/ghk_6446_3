@@ -53,11 +53,7 @@ const chipsPercentByPeriod: Record<number, number> = {
   12: 0.165,
   24: 0.136,
 };
-
 const LINK = 'alfabank://longread?endpoint=v1/adviser/longreads/79127';
-if (LS.getItem(LSKeys.ShowThx, false)) {
-  window.location.replace(LINK);
-}
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
@@ -103,7 +99,7 @@ export const App = () => {
     setSum2(value ?? 0);
   };
 
-  if (thxShow) {
+  if (!thxShow) {
     return <ThxLayout />;
   }
 
