@@ -181,8 +181,16 @@ export const App = () => {
               block={true}
               reversed={true}
               checked={selected}
-              label="Перевести со вклада"
-              hint="Деньги зачислятся, когда вклад закроется"
+              label={
+                <Typography.Text color="primary" weight="medium" view="primary-medium">
+                  Перевести со вклада
+                </Typography.Text>
+              }
+              hint={
+                <Typography.Text color="primary" weight="medium" view="primary-small">
+                  Деньги зачислятся, когда вклад закроется
+                </Typography.Text>
+              }
               onChange={() => setSelected(!selected)}
             />
           </div>
