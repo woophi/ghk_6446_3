@@ -99,7 +99,7 @@ export const App = () => {
     setSum2(value ?? 0);
   };
 
-  if (!thxShow) {
+  if (thxShow) {
     return <ThxLayout />;
   }
 
